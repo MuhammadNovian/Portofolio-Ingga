@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ingga Lakitania Juanda | Content Creator</title>
+
+  <!-- ===== FONT & ICON ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.cdnfonts.com/css/manison" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/kollektif" rel="stylesheet">
+
+  <!-- ===== STYLE ===== -->
+  <style>
+    :root {
+      --accent: #d33bc0;
+      --max-width: 1100px;
+      --transition-speed: 1s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'manison', 'kollektif', sans-serif;
+      background: linear-gradient(135deg, #fff7ad, #ffa9f9);
+      background-size: 200% 200%;
+      animation: gradientShift 10s ease infinite;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== Canvas Ripple ===== */
+    canvas#bgCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      opacity: 0.9;
+    }
+
+    /* ===== Container ===== */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .brand h1 {
+      font-family: 'manison';
+      font-size: 40px;
+      color: var(--accent);
+    }
+
+    .brand div {
+      font-size: 20px;
+      color: #333;
+    }
+
+    .icon-links a {
+      color: var(--accent);
+      margin-left: 18px;
+      font-size: 22px;
+      transition: .3s;
+    }
+
+    .icon-links a:hover {
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      padding: 36px 0;
+    }
+
+    .hero-left {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero-left h2 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .hero-left p {
+      font-family: 'manison';
+      font-size: 25px;
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+
+    .cta-btn {
+      font-family: 'manison';
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.15);
+      transition: .3s;
+    }
+
+    .cta-btn:hover {
+      background: #fff;
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* ===== Hero Right ===== */
+    .hero-right {
+      flex: 1;
+      min-width: 300px;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .profile-photo {
+      width: 220px;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 4px solid #fff;
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-meta { text-align: center; }
+
+    /* ===== Skills LED ===== */
+    .skills-led {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 8px 0;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    .skills-track {
+      display: flex;
+      white-space: nowrap;
+      animation: scrollLoop 40s linear infinite;
+      will-change: transform;
+    }
+
+    .skills-content {
+      display: flex;
+    }
+
+    .skills-content span {
+      display: inline-block;
+      margin: 0 14px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 999px;
+      font-size: 13.5px;
+      transition: all 0.3s ease;
+    }
+
+    .skills-content span:hover {
+      background: linear-gradient(135deg, #ff9cf3, #ffb8a4);
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    @keyframes scrollLoop {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-540%); }
+    }
+
+    .skills-led:hover .skills-track {
+      animation-play-state: paused;
+    }
+
+    /* ===== Gallery ===== */
+    .gallery-wrapper {
+      margin-top: 40px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.5);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity var(--transition-speed) ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .gallery-btn {
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .gallery-btn:hover { background: #fff; transform: scale(1.1); }
+
+    footer {
+      margin: 36px 0;
+      color: #555;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .slider { aspect-ratio: 3 / 4; }
+      .gallery-btn { width: 32px; height: 32px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Ripple Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <h1>Ingga Lakitania Juanda</h1>
+        <div>Content Creator</div>
+      </div>
+      <div class="icon-links">
+        <a href="mailto:inggalakitania39@gmail.com"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/62895621018870" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="http://linkedin.com/in/inggalakitaniajuanda" target="_blank"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <p><strong>Halo saya Ingga Lakitania Juanda</strong>  - Seorang Content Creator dengan pengalaman 1 tahun 4 bulan di Beauty Industry. Sebagai Content Creator saya membuat konten plan, produksi konten, menyusun strategi, dan editing photo serta video. Dari pengalaman tersebut, saya berhasil meningkatkan viewers pada top konten sebanyak lebih dari 5 juta views, dan berhasil memperoleh ER hingga 11%.</p>
+        <a href="https://wa.me/62895621018870" target="_blank" class="cta-btn">Hire Me</a>
+      </div>
+
+      <aside class="hero-right">
+        <div class="profile-photo">
+          <img src="projects/img/Foto profil pro-novian.jpg" alt="Foto Profil">
+        </div>
+        <div class="profile-meta">
+          <h3>Ingga Lakitania Juanda</h3>
+          <p>Content Creator - Beauty Industry</p>
+        </div>
+
+        <!-- SKILLS LED -->
+        <div class="skills-led">
+          <div class="skills-track" id="skillsTrack">
+            <div class="skills-content">
+              <span>Branding</span>
+              <span>Content Writing</span>
+              <span>Copywriting</span>
+              <span>Content Strategy</span>
+              <span>Social Media Marketing</span>
+              <span>Creative Thinking</span>
+              <span>Detail-Oriented</span>
+              <span>Editing Video</span>
+              <span>Editing Photo</span>
+              <span>Problem Solving</span>
+              <span>Trend</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery-wrapper">
+      <div class="slider" id="slider">
+        <div class="slide active"><img src="projects/gallery/content1.png" alt="Konten 1"></div>
+        <div class="slide"><img src="projects/gallery/content2.png" alt="Konten 2"></div>
+        <div class="slide"><img src="projects/gallery/content3.png" alt="Konten 3"></div>
+        <div class="slide"><img src="projects/gallery/content4.png" alt="Konten 4"></div>
+        <div class="slide"><img src="projects/gallery/content5.png" alt="Konten 5"></div>
+        <div class="slide"><img src="projects/gallery/content6.png" alt="Konten 6"></div>
+        <div class="slide"><img src="projects/gallery/content7.png" alt="Konten 7"></div>
+      </div>
+
+      <div class="gallery-nav">
+        <button class="gallery-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="gallery-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <footer>
+      &copy; 2025 Muhammad Novian | Front End Developer & Web Designer.
+    </footer>
+  </div>
+
+<script>
+window.addEventListener("load", () => {
+  const track = document.getElementById("skillsTrack");
+  const content = track.querySelector(".skills-content");
+  if (!track || !content) return;
+
+  // Bersihin dulu clone lama
+  while (track.children.length > 1) track.removeChild(track.lastChild);
+
+  // Gandakan 1x saja supaya total panjang = 2x konten asli
+  const clone = content.cloneNode(true);
+  track.appendChild(clone);
+});
+</script>
+
+
+  <!-- ===== JS: Gallery & Ripple ===== -->
+  <script>
+    /* ==== GALLERY SLIDER ==== */
+    const slides = document.querySelectorAll('.slide');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let index = 0;
+    let interval;
+
+    const slideInterval = 5000; // GANTI KECEPATAN AUTOSLIDE DI SINI (ms)
+
+    function showSlide(i) {
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    }
+
+    function nextSlide() {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    }
+
+    function prevSlide() {
+      index = (index - 1 + slides.length) % slides.length;
+      showSlide(index);
+    }
+
+    function startAutoSlide() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, slideInterval);
+    }
+
+    nextBtn.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
+    prevBtn.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
+
+    const slider = document.getElementById('slider');
+    slider.addEventListener('mouseenter', () => clearInterval(interval));
+    slider.addEventListener('mouseleave', startAutoSlide);
+
+    startAutoSlide();
+
+    /* ==== RIPPLE EFFECT ==== */
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth, H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+
+    const ripples = [];
+    const CONFIG = { baseLineWidth: 2, growSpeed: 2.2, fadeSpeed: 0.012, maxAlpha: 0.65, color: '255,255,255' };
+
+    function createRipple(x, y) {
+      ripples.push({ x, y, radius: 0, alpha: CONFIG.maxAlpha, linewidth: CONFIG.baseLineWidth });
+    }
+
+    let lastMove = 0;
+    document.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastMove > 40) { createRipple(e.clientX, e.clientY); lastMove = now; }
+    });
+
+    document.addEventListener('touchstart', e => {
+      if (e.touches && e.touches[0]) createRipple(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    window.addEventListener('resize', () => {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W; canvas.height = H;
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${CONFIG.color}, ${r.alpha})`;
+        ctx.lineWidth = r.linewidth;
+        ctx.stroke();
+
+        r.radius += CONFIG.growSpeed;
+        r.alpha -= CONFIG.fadeSpeed;
+        r.linewidth = Math.max(0.5, r.linewidth * 0.995);
+        if (r.alpha <= 0) ripples.splice(i, 1);
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
