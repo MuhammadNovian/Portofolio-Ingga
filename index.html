@@ -100,6 +100,8 @@
     .hero-left {
       flex: 1;
       min-width: 300px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
 
     .hero-left h2 {
@@ -111,9 +113,14 @@
 
     .hero-left p {
       font-family: 'manison';
-      font-size: 25px;
+      font-size: 21px;
       margin-bottom: 16px;
       text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.7;
+      word-spacing: 0.05em;
+      hyphens: auto;
+      margin: 0 0 1rem 0;
     }
 
     .cta-btn {
@@ -290,6 +297,19 @@
       .slider { aspect-ratio: 3 / 4; }
       .gallery-btn { width: 32px; height: 32px; }
     }
+
+    /* Responsive fix: font tetap proporsional */
+    @media (max-width: 600px) {
+      .hero-left h1,
+      .hero-left h2 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+      }
+
+      .hero-left p {
+        font-size: 1rem;
+      }
+  }
   </style>
 </head>
 
